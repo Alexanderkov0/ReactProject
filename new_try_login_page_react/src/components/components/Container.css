@@ -1,0 +1,37 @@
+.container {
+  display: flex;
+  height: 80vh;
+  width: 80vw;
+  margin: auto;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.container .left,
+.container .right {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container .left {
+  background: #f5f5dc; /* light beige for the image side */
+}
+
+.container .right {
+  background: #fff;
+  padding: 2rem;
+  flex-direction: column;
+}
+
+/* Add this for the image size */
+.page-image {
+  max-width: 70%;
+  max-height: 70%;
+  object-fit: contain;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
