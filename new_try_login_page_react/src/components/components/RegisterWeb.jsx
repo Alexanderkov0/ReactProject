@@ -12,6 +12,8 @@ import {Button} from "./ui/Button";
 import {Footer} from "./ui/Footer";
 import {Header} from "./ui/Header";
 import {PageImage} from "./ui/PageImage";
+import { PictureDiv } from "./layout/PictureDiv";
+import { RightContainer } from "./layout/RightContainer";
 
 
 
@@ -20,10 +22,10 @@ function RegisterWeb() {
     <Page>
       <Container>
         <Row className="g-4">
-        <div className="col-md-6 d-flex align-items-center justify-content-center ">
+        <PictureDiv>
           <PageImage />
-        </div>
-        <div className="col-md-6 d-flex flex-column justify-content-center p-4">
+        </PictureDiv>
+        <RightContainer>
           <Header>Sign Up Here</Header>
           <SignUp>
             <Form>
@@ -37,7 +39,7 @@ function RegisterWeb() {
           <Footer url="/" linktext={"Login"}>
           Already have an account?
           </Footer>
-        </div>
+        </RightContainer>
         </Row>
       </Container>
     </Page>
