@@ -2,6 +2,7 @@ import React from "react";
 import "./Page.css";
 import myImage from "../../assets/loginImage.jpg";
 import './Container.css'
+import { Link } from "react-router-dom";
 
 function Page({ children }) {
   return <div className="page-container">{children}</div>;
@@ -51,18 +52,18 @@ function Button({ onClick, children, className = ""  }) {
 }
 
 //footer component
-function Footer({ url, children }) {
+function Footer({ url, children, linktext }) {
   return (
     <footer className="footer text-center mt-3">
       {children}
-      <a href={url} className="footer-link ms-2 text-primary text-decoration-none">Learn more</a>
+      <a href={url} className="footer-link ms-2 text-primary text-decoration-none">{`${linktext}`}</a>
     </footer>
   );
 }
 
 
 
-function LoginWeb() {
+function RegisterWeb() {
   return (
     <Page>
       <Container>
@@ -71,16 +72,18 @@ function LoginWeb() {
           <PageImage />
         </div>
         <div className="col-md-6 d-flex flex-column justify-content-center p-4">
-          <Header>Login</Header>
+          <Header>Sign Up Here</Header>
           <SignUp>
             <Form>
-              <Input type="text" placeholder="Email" />
-              <Input type="password" placeholder="Password" />
-              <Button className="button btn btn-dark w-100"> Login </Button>
+              <Input type="text" placeholder="Name" />
+              <Input type="email" placeholder="Email" />
+              <Input type="password" placeholder="create password" />
+
+              <Button className="button btn btn-dark w-100"> Create Account</Button>
             </Form>
           </SignUp>
-          <Footer url="https://www.example.com">
-            Don't have an account? Sign up here.
+          <Footer url="/" linktext={"Login"}>
+          Already have an account?
           </Footer>
         </div>
         </Row>
@@ -89,4 +92,4 @@ function LoginWeb() {
   );
 }
 
-export default LoginWeb
+export default RegisterWeb;
