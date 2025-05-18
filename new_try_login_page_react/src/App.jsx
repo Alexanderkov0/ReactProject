@@ -1,6 +1,6 @@
 // import { useState } from 'react'
-import LoginWeb from "./components/components/LoginWeb";
-import RegisterWeb from "./components/components/RegisterWeb";
+import LoginWeb from "./components/components/forms/LoginWeb";
+import RegisterWeb from "./components/components/forms/RegisterWeb";
 // import './App.css'
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
