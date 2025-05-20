@@ -4,6 +4,7 @@ import TabPanel from "../home/TabPanel";
 import { Page } from "../layout/Page"; // Import Page
 import Sidebar from "../home/Sidebar"; // Import Sidebar
 import NavHeader from "../home/NavHeader";
+import { HouseIcon } from "../ui/HouseIcon";
 
 
 const tabOptions = [
@@ -16,19 +17,39 @@ const tabOptions = [
 
 export default function Overview() {
   const [selectedTab, setSelectedTab] = useState(tabOptions[0].value); // Default to the first tab
+    const [minimized, setMinimized] = useState(false);
 
   return (
     <Page>
       <div className="container-fluid" style={{ minHeight: "100vh" }}>
         <div className="row">
           {/* Left Nav */}
-          <Sidebar className="">
-            <NavHeader>finance</NavHeader>
-            <Tabs
-              options={tabOptions}
-              selected={selectedTab}
-              onSelect={setSelectedTab}
-            />
+          <Sidebar className={minimized ? "minimized" : ""}>
+        {minimized && (
+            <button
+                className="sidebar-toggle"
+                onClick={() => setMinimized((m) => !m)}
+                style={{ margin: "2rem 0 1rem 1rem", alignSelf: "flex-start" }}
+            >
+                <HouseIcon />
+            </button>
+            )}
+            {!minimized && <NavHeader>finance</NavHeader>}
+            {!minimized && (
+              <Tabs
+                options={tabOptions}
+                selected={selectedTab}
+                onSelect={setSelectedTab}
+              />
+            )}
+             {!minimized && <div style={{ flex: 1 }} /> } 
+             {!minimized && <button
+              className="sidebar-toggle"
+              onClick={() => setMinimized((m) => !m)}
+              style={{ margin: "1rem 0 1rem 1rem", alignSelf: "flex-start"}}
+            >
+              Minimize Menu
+            </button> }
           </Sidebar>
           
           {/* Right Content */}

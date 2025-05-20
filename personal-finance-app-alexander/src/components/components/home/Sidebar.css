@@ -7,4 +7,24 @@
   display: flex;
   flex-direction: column;
   align-items: stretch;
+    transition: width 0.3s;
+  width: 240px; /* expanded width */
+}
+
+.Sidebar.minimized {
+  width: 70px; /* minimized width */
+  padding-top: 0.5rem;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;   /* horizontal center */
+  padding-right: 1rem !important; /* Adjust padding to center the content */
+}
+
+.sidebar-toggle {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+  align-self: flex-end;
 }
