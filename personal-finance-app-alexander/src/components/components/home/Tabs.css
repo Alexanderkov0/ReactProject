@@ -1,0 +1,33 @@
+/* Tabs.css */
+.my-custom-nav {
+  background: #222;
+  border-radius: 10px !important;
+  padding: 1rem 0;
+}
+
+.my-custom-tab {
+  color: #fff !important;
+  font-weight: 600 !important;
+  text-decoration: none !important;
+  background: transparent;
+  border: none;
+  text-align: left;
+  font-size: 1.1rem;
+  padding: 0.8rem 2rem !important;
+  transition: background 0.2s;
+  width: 80%;                 /* Make all buttons fill the width of the sidebar */
+  display: block;              /* Ensure the button fills the li */
+  box-sizing: border-box;      /* Include padding in width */
+  text-decoration: none !important; /* Remove underline */
+  border-top-right-radius: 1rem !important;   /* Round top-right */
+  border-bottom-right-radius: 1rem !important;/* Round bottom-right */
+  border-top-left-radius: 0 !important;       /* No rounding on left */
+  border-bottom-left-radius: 0 !important;    /* No rounding on left */
+}
+
+.my-custom-tab.active,
+.my-custom-tab:hover {
+  background: white !important;
+  color: black !important;
+}
+
