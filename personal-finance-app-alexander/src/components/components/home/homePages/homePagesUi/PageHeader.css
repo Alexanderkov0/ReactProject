@@ -1,0 +1,6 @@
+.page-header {
+  font-weight: 700; /* Use semibold for better visibility */
+  margin-top: -0.2rem;   /* Move a little to the top */
+  margin-bottom: 1.5rem;
+  font-size: 1.9rem;      /* Optional: make it larger */
+}

@@ -5,8 +5,8 @@ import { Link } from "react-router-dom";
 import {Page} from "../layout/Page";
 import {Container} from "../layout/Container";
 import {Row} from "../layout/Row";
-import {SignUp} from "../pages/SignUp";
-import {Form} from "../pages/Form";
+import {SignUp} from "../loginPages/SignUp";
+import {Form} from "../loginPages/Form";
 import {Input} from "../ui/Input";
 import {Button} from "../ui/Button";
 import {Footer} from "../ui/Footer";
@@ -32,6 +32,7 @@ function LoginWeb() {
           <PageImage />
         </PictureDiv>
         <RightContainer>
+          
           <Header>Login</Header>
           <SignUp>
               <FormControlledComponent

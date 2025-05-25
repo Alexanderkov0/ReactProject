@@ -5,6 +5,7 @@ import { Page } from "../layout/Page"; // Import Page
 import Sidebar from "../home/Sidebar"; // Import Sidebar
 import NavHeader from "../home/NavHeader";
 import { HouseIcon } from "../ui/HouseIcon";
+import BottomNav from "../home/BottomNav";
 
 
 const tabOptions = [
@@ -24,7 +25,7 @@ export default function Overview() {
       <div className="container-fluid" style={{ minHeight: "100vh" }}>
         <div className="row">
           {/* Left Nav */}
-          <Sidebar className={minimized ? "minimized" : ""}>
+          <Sidebar minimized={minimized} className={minimized ? "minimized" : ""}>
         {minimized && (
             <button
                 className="sidebar-toggle"
@@ -53,10 +54,12 @@ export default function Overview() {
           </Sidebar>
           
           {/* Right Content */}
-          <div className="col-md-9 p-4">
+          <div className={`${minimized ? "col-md-11" : "col-md-9"} p-4 `}>
             <TabPanel tab={selectedTab} />
           </div>
         </div>
+        {/* Bottom Nav for mobile */}
+        <BottomNav options={tabOptions} selected={selectedTab} onSelect={setSelectedTab} />
       </div>
     </Page>
   );

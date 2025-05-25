@@ -1,7 +1,7 @@
 //controlled component
 
 import React, { useState } from 'react';
-import { Form } from "../pages/Form";
+import { Form } from "../loginPages/Form";
 import { Button } from "../ui/Button";
 
 export function FormControlledComponent({

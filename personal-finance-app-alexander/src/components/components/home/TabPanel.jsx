@@ -1,11 +1,12 @@
 import React from "react";
+import Transactions from "./homePages/Transactions";
 
 export default function TabPanel({ tab }) {
   switch (tab) {
     case "overview":
       return <div>Overview Content</div>;
     case "transactions":
-      return <div>Transactions Content</div>;
+      return <Transactions />;
     case "budgets":
       return <div>Budgets Content</div>;
     case "pots":
