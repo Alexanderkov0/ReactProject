@@ -14,11 +14,16 @@ import {Header} from "../ui/Header";
 import {PageImage} from "../ui/PageImage";
 import { PictureDiv } from "../layout/PictureDiv";
 import { RightContainer } from "../layout/RightContainer";
+import { FormControlledComponent } from "./FormControlledComponent";
 
 
 
 
 function LoginWeb() {
+    function handleLogin(data) {
+    // handle login logic here
+    console.log("Login data:", data);
+  }
   return (
     <Page className="page-center">
       <Container>
@@ -29,11 +34,14 @@ function LoginWeb() {
         <RightContainer>
           <Header>Login</Header>
           <SignUp>
-            <Form>
-              <Input type="text" placeholder="Email" />
-              <Input type="password" placeholder="Password" />
-              <Button className="button btn btn-dark w-100" > Login </Button>
-            </Form>
+              <FormControlledComponent
+                fields={[
+                  { name: "email", type: "email", placeholder: "Email" },
+                  { name: "password", type: "password", placeholder: "Password" }
+                ]}
+                buttonText="Login"
+                onSubmit={handleLogin}
+              />
           </SignUp>
           <Footer url="/register" linktext={"Sign Up"}>
             Don't have an account?

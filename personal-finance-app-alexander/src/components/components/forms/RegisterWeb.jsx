@@ -15,10 +15,15 @@ import {PageImage} from "../ui/PageImage";
 import { PictureDiv } from "../layout/PictureDiv";
 import { RightContainer } from "../layout/RightContainer";
 import { CenterTextBox } from "../ui/CenterTextBox";
+import { FormControlledComponent } from "./FormControlledComponent";
 
 
 
 function RegisterWeb() {
+    function handleRegister(data) {
+    // handle register logic here
+    console.log("Register data:", data);
+  }
   return (
     <Page className="page-center">
       <Container>
@@ -29,13 +34,15 @@ function RegisterWeb() {
         <RightContainer>
           <Header>Sign Up Here</Header>
           <SignUp>
-            <Form>
-              <Input type="text" placeholder="Name" />
-              <Input type="email" placeholder="Email" />
-              <Input type="password" placeholder="create password" />
-
-              <Button className="button btn btn-dark w-100"> Create Account</Button>
-            </Form>
+              <FormControlledComponent
+                fields={[
+                  { name: "username", type: "text", placeholder: "username" },
+                  { name: "email", type: "email", placeholder: "Email" },
+                  { name: "password", type: "password", placeholder: "Create password" }
+                ]}
+                buttonText="Create Account"
+                onSubmit={handleRegister}
+              />
           </SignUp>
           <Footer url="/" linktext={"Login"}>
           Already have an account?
