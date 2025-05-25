@@ -1,15 +1,42 @@
-import React from "react";
+import React, {useState} from "react";
 import {PageHeader} from "./homePagesUi/PageHeader";
 import {TransactionsTable} from "./homePagesUi/TransactionsTable";
+import { parseAmount } from "./homePagesUi/parseAmount";
 
 
 const sampleData = [
   { recipient: "alex",category: "Groceries", date: "2024-06-01", amount: "-$50.00" },
   { recipient: "alex",category: "Rent", date: "2024-06-01", amount: "+$1200.00" },
-  { recipient: "alex",category: "Utilities", date: "2024-06-02", amount: "-$100.00" },
+  { recipient: "nisim",category: "Utilities", date: "2024-06-02", amount: "-$100.00" },
+];
+
+
+const categories = ["All", ...Array.from(new Set(sampleData.map(tx => tx.category)))];
+const sortOptions = [
+  { label: "Date (Newest)", value: "date-desc" },
+  { label: "Date (Oldest)", value: "date-asc" },
+  { label: "Amount (High to Low)", value: "amount-desc" },
+  { label: "Amount (Low to High)", value: "amount-asc" },
 ];
 
 export default function Transactions() {
+  const [search, setSearch] = useState("");
+  const [category, setCategory] = useState("All");
+  const [sortBy, setSortBy] = useState("date-desc");
+
+  // Filter and sort logic
+  let filtered = sampleData.filter(tx =>
+    (category === "All" || tx.category === category) &&
+    (tx.recipient.toLowerCase().includes(search.toLowerCase()) ||
+      tx.category.toLowerCase().includes(search.toLowerCase()))
+  );
+
+  if (sortBy === "date-desc") filtered = filtered.sort((a, b) => b.date.localeCompare(a.date));
+  if (sortBy === "date-asc") filtered = filtered.sort((a, b) => a.date.localeCompare(b.date));
+  if (sortBy === "amount-desc") filtered = filtered.sort((a, b) => parseAmount(b.amount) - parseAmount(a.amount));
+  if (sortBy === "amount-asc") filtered = filtered.sort((a, b) => parseAmount(a.amount) - parseAmount(b.amount));
+
+
   return (
     <>
       <div className="row">
@@ -19,9 +46,35 @@ export default function Transactions() {
       </div>
       <div className="row">
         <div className="col">
-          <div className="container">
-            {/* Placeholder for future transaction components */}
-            <TransactionsTable data={sampleData} />
+          <div className="bg-white p-4 rounded shadow-sm">
+            {/* Search and filter controls */}
+            <div className="row mb-3">
+              <div className="col-md-4 mb-2">
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Search by recipient or category"
+                  value={search}
+                  onChange={e => setSearch(e.target.value)}
+                />
+              </div>
+              <div className="col-md-4 mb-2">
+                <select className="form-select" value={category} onChange={e => setCategory(e.target.value)}>
+                  {categories.map(cat => (
+                    <option key={cat} value={cat}>{cat}</option>
+                  ))}
+                </select>
+              </div>
+              <div className="col-md-4 mb-2">
+                <select className="form-select" value={sortBy} onChange={e => setSortBy(e.target.value)}>
+                  {sortOptions.map(opt => (
+                    <option key={opt.value} value={opt.value}>{opt.label}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+            {/* Table data */}
+            <TransactionsTable data={filtered} />
           </div>
         </div>
       </div>

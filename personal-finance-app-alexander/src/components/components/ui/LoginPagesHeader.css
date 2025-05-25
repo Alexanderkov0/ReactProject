@@ -1,0 +1,31 @@
+.login-pages-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+  background-color: #111;
+  color: #fff;
+  border-bottom-left-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1100;
+  font-size: 1.5rem;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+/* Only show on small screens */
+@media (min-width: 768px) {
+  .login-pages-header {
+    display: none;
+  }
+}
+/* Adjust padding for page content to avoid overlap with header */
+@media (max-width: 767.98px) {
+  .page-center {
+    padding-top: 80px;
+  }
+}

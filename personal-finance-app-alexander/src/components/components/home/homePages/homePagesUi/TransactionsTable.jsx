@@ -3,7 +3,7 @@ import React from "react";
 export function TransactionsTable({ data }) {
   return (
     <div className="table-responsive">
-      <table className="table table-striped align-middle">
+      <table className="table align-middle">
         <thead>
           <tr>
             <th>Recipient/Sender</th>
@@ -24,7 +24,7 @@ export function TransactionsTable({ data }) {
             ))
           ) : (
             <tr>
-              <td colSpan={3} className="text-center text-muted">
+              <td colSpan={4} className="text-center text-muted">
                 No transactions found.
               </td>
             </tr>

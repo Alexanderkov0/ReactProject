@@ -16,6 +16,7 @@ import { PictureDiv } from "../layout/PictureDiv";
 import { RightContainer } from "../layout/RightContainer";
 import { CenterTextBox } from "../ui/CenterTextBox";
 import { FormControlledComponent } from "./FormControlledComponent";
+import { LoginPagesHeader } from "../ui/LoginPagesHeader";
 
 
 
@@ -26,6 +27,7 @@ function RegisterWeb() {
   }
   return (
     <Page className="page-center">
+      <LoginPagesHeader>finance</LoginPagesHeader>
       <Container>
         <Row className="g-4">
         <PictureDiv>

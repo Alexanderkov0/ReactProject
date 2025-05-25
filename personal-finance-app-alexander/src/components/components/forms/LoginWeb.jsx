@@ -15,6 +15,8 @@ import {PageImage} from "../ui/PageImage";
 import { PictureDiv } from "../layout/PictureDiv";
 import { RightContainer } from "../layout/RightContainer";
 import { FormControlledComponent } from "./FormControlledComponent";
+import { LoginPagesHeader } from "../ui/LoginPagesHeader";
+
 
 
 
@@ -26,6 +28,7 @@ function LoginWeb() {
   }
   return (
     <Page className="page-center">
+      <LoginPagesHeader>finance</LoginPagesHeader>
       <Container>
         <Row className="g-4">
         <PictureDiv>
