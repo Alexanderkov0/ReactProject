@@ -20,6 +20,11 @@
   
 }
 
+.header-left {
+  text-align: left !important;
+  width: 100%;
+}
+
 .footer {
   margin-top: 2rem;
   font-size: 0.9rem;

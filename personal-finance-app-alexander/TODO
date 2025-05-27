@@ -1,0 +1,24 @@
+<!-- 1. update navbar to show icons of all categories on the side  -->
+
+2. round up the nav bar on the left side in the top right and bottom right corners
+
+transactions
+3. add picture for recipient?
+
+4. add filter by page number for content
+
+
+Budgets
+- add budgets page
+
+Recurring bills
+- add page
+
+Overview
+- load up all content components in the page
+
+
+OTHER
+- make auth context and auth
+- make backend server and db
+
