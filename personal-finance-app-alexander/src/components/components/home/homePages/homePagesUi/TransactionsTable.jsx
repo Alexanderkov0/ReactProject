@@ -1,4 +1,5 @@
 import React from "react";
+import displayAmount from "../../../utils/displayAmount";
 
 export function TransactionsTable({ data }) {
   return (
@@ -19,7 +20,7 @@ export function TransactionsTable({ data }) {
                 <td>{tx.recipient || tx.sender}</td>
                 <td>{tx.category}</td>
                 <td>{tx.date}</td>
-                <td>{tx.amount}</td>
+                <td>{displayAmount(Number(tx.amount))}</td>
               </tr>
             ))
           ) : (

@@ -3,59 +3,81 @@ import {PageHeader} from "./homePagesUi/PageHeader";
 import {TransactionsTable} from "./homePagesUi/TransactionsTable";
 import { parseAmount } from "./homePagesUi/parseAmount";
 import {Button} from "../../ui/Button";
+import Modal from "../../ui/Modal"; // adjust path as needed
 
 
-const sampleData = [
-  { recipient: "alex",category: "Groceries", date: "2024-06-01", amount: "-$50.00" },
-  { recipient: "alex",category: "Rent", date: "2024-06-01", amount: "+$1200.00" },
-  { recipient: "nisim",category: "Utilities", date: "2024-06-02", amount: "-$100.00" },
-  { recipient: "alex",category: "Groceries", date: "2024-06-01", amount: "-$50.00" },
-  { recipient: "alex",category: "Rent", date: "2024-06-01", amount: "+$1200.00" },
-  { recipient: "nisim",category: "Utilities", date: "2024-06-02", amount: "-$100.00" },
-  { recipient: "alex",category: "Groceries", date: "2024-06-01", amount: "-$50.00" },
-  { recipient: "alex",category: "Rent", date: "2024-06-01", amount: "+$1200.00" },
-  { recipient: "nisim",category: "Utilities", date: "2024-06-02", amount: "-$100.00" },
-    { recipient: "alex",category: "Groceries", date: "2024-06-01", amount: "-$50.00" },
-  { recipient: "alex",category: "Rent", date: "2024-06-01", amount: "+$1200.00" },
-  { recipient: "nisim",category: "Utilities", date: "2024-06-02", amount: "-$100.00" },
-  { recipient: "alex",category: "Groceries", date: "2024-06-01", amount: "-$50.00" },
-  { recipient: "alex",category: "Rent", date: "2024-06-01", amount: "+$1200.00" },
-  { recipient: "nisim",category: "Utilities", date: "2024-06-02", amount: "-$100.00" },
-  { recipient: "alex",category: "Groceries", date: "2024-06-01", amount: "-$50.00" },
-  { recipient: "alex",category: "Rent", date: "2024-06-01", amount: "+$1200.00" },
-  { recipient: "nisim",category: "Utilities", date: "2024-06-02", amount: "-$100.00" },
-    { recipient: "alex",category: "Groceries", date: "2024-06-01", amount: "-$50.00" },
-  { recipient: "alex",category: "Rent", date: "2024-06-01", amount: "+$1200.00" },
-  { recipient: "nisim",category: "Utilities", date: "2024-06-02", amount: "-$100.00" },
-  { recipient: "alex",category: "Groceries", date: "2024-06-01", amount: "-$50.00" },
-  { recipient: "alex",category: "Rent", date: "2024-06-01", amount: "+$1200.00" },
-  { recipient: "nisim",category: "Utilities", date: "2024-06-02", amount: "-$100.00" },
-  { recipient: "alex",category: "Groceries", date: "2024-06-01", amount: "-$50.00" },
-  { recipient: "alex",category: "Rent", date: "2024-06-01", amount: "+$1200.00" },
-  { recipient: "nisim",category: "Utilities", date: "2024-06-02", amount: "-$100.00" },
+import "./ModalPortal"
+import ModalPortal from "./ModalPortal";
+
+const initialData = [
+  { recipient: "alex",category: "Groceries", date: "2024-06-01", amount: "-50.00" },
+  { recipient: "alex",category: "Rent", date: "2024-06-01", amount: "+1200.00" },
+  { recipient: "nisim",category: "Utilities", date: "2024-06-02", amount: "-100.00" },
+  { recipient: "alex",category: "Groceries", date: "2024-06-01", amount: "-50.00" },
+  { recipient: "alex",category: "Rent", date: "2024-06-01", amount: "+1200.00" },
+  { recipient: "nisim",category: "Utilities", date: "2024-06-02", amount: "-100.00" },
+  { recipient: "alex",category: "Groceries", date: "2024-06-01", amount: "-50.00" },
+  { recipient: "alex",category: "Rent", date: "2024-06-01", amount: "+1200.00" },
+  { recipient: "nisim",category: "Utilities", date: "2024-06-02", amount: "-100.00" },
+  { recipient: "alex",category: "Groceries", date: "2024-06-01", amount: "-50.00" },
+  { recipient: "alex",category: "Rent", date: "2024-06-01", amount: "+1200.00" },
+  { recipient: "nisim",category: "Utilities", date: "2024-06-02", amount: "-100.00" },
+  { recipient: "alex",category: "Groceries", date: "2024-06-01", amount: "-50.00" },
+  { recipient: "alex",category: "Rent", date: "2024-06-01", amount: "+1200.00" },
+  { recipient: "nisim",category: "Utilities", date: "2024-06-02", amount: "-100.00" },
+  { recipient: "alex",category: "Groceries", date: "2024-06-01", amount: "-50.00" },
+  { recipient: "alex",category: "Rent", date: "2024-06-01", amount: "+1200.00" },
+  { recipient: "nisim",category: "Utilities", date: "2024-06-02", amount: "-100.00" },
+  { recipient: "alex",category: "Groceries", date: "2024-06-01", amount: "-50.00" },
+  { recipient: "alex",category: "Rent", date: "2024-06-01", amount: "+1200.00" },
+  { recipient: "nisim",category: "Utilities", date: "2024-06-02", amount: "-100.00" },
+  { recipient: "alex",category: "Groceries", date: "2024-06-01", amount: "-50.00" },
+  { recipient: "alex",category: "Rent", date: "2024-06-01", amount: "+1200.00" },
+  { recipient: "nisim",category: "Utilities", date: "2024-06-02", amount: "-100.00" },
+  { recipient: "alex",category: "Groceries", date: "2024-06-01", amount: "-50.00" },
+  { recipient: "alex",category: "Rent", date: "2024-06-01", amount: "+1200.00" },
+  { recipient: "nisim",category: "Utilities", date: "2024-06-02", amount: "-100.00" },
+  { recipient: "alex",category: "Groceries", date: "2024-06-01", amount: "-50.00" },
+  { recipient: "alex",category: "Rent", date: "2024-06-01", amount: "+1200.00" },
+  { recipient: "nisim",category: "Utilities", date: "2024-06-02", amount: "-100.00" },
+  { recipient: "alex",category: "Groceries", date: "2024-06-01", amount: "-50.00" },
+  { recipient: "alex",category: "Rent", date: "2024-06-01", amount: "+1200.00" },
+  { recipient: "nisim",category: "Utilities", date: "2024-06-02", amount: "-100.00" },
 ];
-
-
-const categories = ["All", ...Array.from(new Set(sampleData.map(tx => tx.category)))];
-const sortOptions = [
-  { label: "Date (Newest)", value: "date-desc" },
-  { label: "Date (Oldest)", value: "date-asc" },
-  { label: "Amount (High to Low)", value: "amount-desc" },
-  { label: "Amount (Low to High)", value: "amount-asc" },
-];
-
 
 const ITEMS_PER_PAGE = 10;
 
-
 export default function Transactions() {
+  const [transactions, setTransactions] = useState(initialData);
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("All");
   const [sortBy, setSortBy] = useState("date-desc");
   const [page, setPage] = useState(1); // <-- Add page state
+  
+  // Modal state
+  const [showModal, setShowModal] = useState(false);
+  const [form, setForm] = useState({
+    recipient: "",
+    category: "",
+    date: "",
+    amount: "",
+  });
+
+  // Categories for filter and form
+
+
+const defaultCategories = ["Groceries", "Rent", "Utilities", "Entertainment", "Transport","Other"];
+
+  const categories = ["All", ...Array.from(new Set([...defaultCategories, ...transactions.map(tx => tx.category)])),];
+  const sortOptions = [
+    { label: "Date (Newest)", value: "date-desc" },
+    { label: "Date (Oldest)", value: "date-asc" },
+    { label: "Amount (High to Low)", value: "amount-desc" },
+    { label: "Amount (Low to High)", value: "amount-asc" },
+  ];
 
   // Filter and sort logic
-  let filtered = sampleData.filter(tx =>
+  let filtered = transactions.filter(tx =>
     (category === "All" || tx.category === category) &&
     (tx.recipient.toLowerCase().includes(search.toLowerCase()) ||
       tx.category.toLowerCase().includes(search.toLowerCase()))
@@ -66,30 +88,56 @@ export default function Transactions() {
   if (sortBy === "amount-desc") filtered = filtered.sort((a, b) => parseAmount(b.amount) - parseAmount(a.amount));
   if (sortBy === "amount-asc") filtered = filtered.sort((a, b) => parseAmount(a.amount) - parseAmount(b.amount));
 
-
- // Pagination logic
+  // Pagination logic
   const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE);
   const paginatedData = filtered.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE);
 
-    // Reset to page 1 if filters change
+  // Reset to page 1 if filters change
   React.useEffect(() => {
     setPage(1);
   }, [search, category, sortBy]);
 
+  // Modal handlers
+  function handleShowModal() {
+    setForm({ recipient: "", category: "", date: "", amount: "" });
+    setShowModal(true);
+  }
+  function handleCloseModal() {
+    setShowModal(false);
+  }
+  function handleFormChange(e) {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  }
+  function handleFormSubmit(e) {
+    e.preventDefault();
+
+  // Parse and store as a number
+  let raw = form.amount.trim();
+  let value = parseFloat(raw.replace(/[^0-9.-]+/g, ""));
+  if (isNaN(value)) value = 0;
+  if (raw.startsWith("-")) value = -Math.abs(value);
+  else value = Math.abs(value);
+
+    setTransactions(prev => [
+      { ...form, amount: value },
+      ...prev,
+    ]);
+    setShowModal(false);
+  }
 
   return (
-  <>
-    <div className="row mb-3">
-      <div className="col">
-        <div className="d-flex justify-content-between align-items-center">
-          <PageHeader>Transactions</PageHeader>
-          <Button className="btn btn-dark mb-3">
-            add transaction
-          </Button>
+    <>
+      <div className="row mb-3">
+        <div className="col">
+          <div className="d-flex justify-content-between align-items-center">
+            <PageHeader>Transactions</PageHeader>
+            <Button className="btn btn-dark mb-3 " onClick={handleShowModal}>
+              add transaction
+            </Button>
+          </div>
         </div>
       </div>
-    </div>
-    <div className="row">
+      <div className="row">
         <div className="col">
           <div className="bg-white p-4 rounded shadow-sm">
             {/* Search and filter controls */}
@@ -119,7 +167,7 @@ export default function Transactions() {
               </div>
             </div>
             {/* Table data */}
-                        <TransactionsTable data={paginatedData} />
+            <TransactionsTable data={paginatedData} />
             {/* Pagination controls */}
             <div className="d-flex justify-content-center mt-3">
               <button
@@ -143,6 +191,74 @@ export default function Transactions() {
           </div>
         </div>
       </div>
+
+      {/* Modal */}
+      {showModal && (
+        <Modal show={showModal} onClose={handleCloseModal} title="Add Transaction">
+          <form onSubmit={handleFormSubmit}>
+            <div className="modal-body">
+              <div className="mb-3">
+                <label className="form-label">Recipient</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="recipient"
+                  value={form.recipient}
+                  onChange={handleFormChange}
+                  required
+                />
+              </div>
+              <div className="mb-3">
+                <label className="form-label">Category</label>
+                <select
+                  className="form-select"
+                  name="category"
+                  value={form.category}
+                  onChange={handleFormChange}
+                  required
+                >
+                  <option value="" disabled>Select category</option>
+                    {categories
+                      .filter(cat => cat !== "All")
+                      .map(cat => (
+                        <option key={cat} value={cat}>{cat}</option>
+                      ))}
+                </select>
+              </div>
+              <div className="mb-3">
+                <label className="form-label">Date</label>
+                <input
+                  type="date"
+                  className="form-control"
+                  name="date"
+                  value={form.date}
+                  onChange={handleFormChange}
+                  required
+                />
+              </div>
+              <div className="mb-3">
+                <label className="form-label">Amount</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="amount"
+                  value={form.amount}
+                  onChange={handleFormChange}
+                  required
+                />
+              </div>
+            </div>
+            <div className="modal-footer">
+              <button type="button" className="btn btn-secondary" onClick={handleCloseModal}>
+                Cancel
+              </button>
+              <button type="submit" className="btn btn-primary">
+                Add
+              </button>
+            </div>
+          </form>
+        </Modal>
+      )}
     </>
   );
 }
