@@ -1,5 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../../contexts/AuthContext/AuthContext";
 
 // Importing components
 import {Page} from "../layout/Page";
@@ -17,15 +19,18 @@ import { RightContainer } from "../layout/RightContainer";
 import { FormControlledComponent } from "./FormControlledComponent";
 import { LoginPagesHeader } from "../ui/LoginPagesHeader";
 
-
-
-
-
 function LoginWeb() {
-    function handleLogin(data) {
-    // handle login logic here
-    console.log("Login data:", data);
+  const { login } = useAuth();
+  const navigate = useNavigate();
+
+  function handleLogin(data) {
+    // Try to log in
+    const success = login({ email: data.email, password: data.password });
+    if (success) {
+      navigate("/overview");
+    }
   }
+
   return (
     <Page className="page-center">
       <LoginPagesHeader>finance</LoginPagesHeader>

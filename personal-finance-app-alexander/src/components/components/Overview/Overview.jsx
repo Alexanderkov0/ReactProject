@@ -12,6 +12,7 @@ import transactionsIcon from "../../../assets/transactions.png";
 import budgetsIcon from "../../../assets/budgets.png";
 import potsIcon from "../../../assets/pots.png";
 import recurringBillsIcon from "../../../assets/recurringBills.png";
+import { useAuth } from "../../../contexts/AuthContext/AuthContext";
 
 
 const tabOptions = [
@@ -31,6 +32,8 @@ export default function Overview() {
   const [location, setLocation] = useLocation(); // <-- Added
   const tabFromUrl = location.split("/")[2] || "overview"; // <-- Added
 
+  const { user, logout } = useAuth();
+
   // Update the state when the window is resized
   useEffect(() => {
     function handleResize() {
@@ -43,6 +46,10 @@ export default function Overview() {
   // function handleTabChange(tab) { setSelectedTab(tab); } // <-- Old way
   function handleTabChange(tab) {
     setLocation(`/overview/${tab}`); // <-- New: update URL to reflect tab
+  }
+
+  if (!user) {
+    return <div>Please log in.</div>;
   }
 
   return (
