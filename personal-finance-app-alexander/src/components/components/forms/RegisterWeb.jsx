@@ -1,5 +1,6 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../../contexts/AuthContext/AuthContext";
 
 // Importing components
 import { Page } from "../layout/Page";
@@ -21,10 +22,16 @@ import { LoginPagesHeader } from "../ui/LoginPagesHeader";
 
 
 function RegisterWeb() {
-    function handleRegister(data) {
-    // handle register logic here
-    console.log("Register data:", data);
+  const { register } = useAuth();
+  const navigate = useNavigate();
+
+  async function handleRegister(data) {
+    const success = await register(data);
+    if (success) {
+      navigate("/"); // Go to login page after registration
+    }
   }
+
   return (
     <Page className="page-center">
       <LoginPagesHeader>finance</LoginPagesHeader>

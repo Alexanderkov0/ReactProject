@@ -23,9 +23,8 @@ function LoginWeb() {
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  function handleLogin(data) {
-    // Try to log in
-    const success = login({ email: data.email, password: data.password });
+  async function handleLogin(data) {
+    const success = await login({ email: data.email, password: data.password });
     if (success) {
       navigate("/overview");
     }

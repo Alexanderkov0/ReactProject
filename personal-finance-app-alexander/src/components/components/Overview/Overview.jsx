@@ -34,6 +34,14 @@ export default function Overview() {
 
   const { user, logout } = useAuth();
 
+
+    // Redirect to login if not authenticated
+  useEffect(() => {
+    if (!user) {
+      setLocation("/"); // Redirect to login page
+    }
+  }, [user, setLocation]);
+
   // Update the state when the window is resized
   useEffect(() => {
     function handleResize() {
