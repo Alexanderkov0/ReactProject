@@ -11,7 +11,8 @@ export function FormControlledComponent({
   ],
   initialValues = {},
   onSubmit,
-  buttonText = "Submit"
+  buttonText = "Submit",
+  generalError= ""
 }) {
   const [inputValue, setInputValue] = useState(
     fields.reduce((acc, field) => ({ ...acc, [field.name]: initialValues[field.name] || "" }), {})
@@ -70,6 +71,12 @@ export function FormControlledComponent({
           )}
         </div>
       ))}
+      {/* Show general error below the fields */}
+      {generalError && (
+        <div className="text-danger mb-3" style={{ fontWeight: "bold" }}>
+          {generalError}
+        </div>
+      )}
       <Button className="button btn btn-dark w-100" onClick={handleSubmit}>
         {buttonText}
       </Button>

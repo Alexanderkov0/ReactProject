@@ -13,7 +13,7 @@ export function AuthProvider({ children }) {
   // Try to load token from localStorage
   const [token, setToken] = useState(() => localStorage.getItem("token") || null);
 
-  async function login({ email, password }) {
+  async function login({ email, password, setGeneralError }) {
     try {
       const res = await fetch("http://localhost:5000/api/auth/login", {
         method: "POST",
@@ -28,11 +28,11 @@ export function AuthProvider({ children }) {
         localStorage.setItem("token", data.token);
         return true;
       } else {
-        alert(data.error || "Login failed");
+        if (setGeneralError) setGeneralError(data.error || "Login failed");
         return false;
       }
     } catch (err) {
-      alert("Login failed");
+      if (setGeneralError) setGeneralError("Login failed");
       return false;
     }
   }

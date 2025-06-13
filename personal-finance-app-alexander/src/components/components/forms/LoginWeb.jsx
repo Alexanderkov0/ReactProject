@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../contexts/AuthContext/AuthContext";
@@ -22,9 +22,15 @@ import { LoginPagesHeader } from "../ui/LoginPagesHeader";
 function LoginWeb() {
   const { login } = useAuth();
   const navigate = useNavigate();
+  const [generalError, setGeneralError] = useState("");
 
   async function handleLogin(data) {
-    const success = await login({ email: data.email, password: data.password });
+    setGeneralError(""); // Clear previous error
+    const success = await login({
+      email: data.email,
+      password: data.password,
+      setGeneralError // Pass this to login to set error from backend
+    });
     if (success) {
       navigate("/overview");
     }
@@ -49,6 +55,7 @@ function LoginWeb() {
                 ]}
                 buttonText="Login"
                 onSubmit={handleLogin}
+                generalError={generalError} // Pass the error to the form
               />
           </SignUp>
           <Footer url="/register" linktext={"Sign Up"}>
@@ -61,4 +68,4 @@ function LoginWeb() {
   );
 }
 
-export default LoginWeb
+export default LoginWeb;

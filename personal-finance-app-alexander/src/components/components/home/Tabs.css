@@ -6,7 +6,7 @@
 }
 
 .my-custom-tab {
-  color: #fff !important;
+  color: #b9b9b9 !important;
   font-weight: 600 !important;
   text-decoration: none !important;
   background: transparent;
@@ -25,9 +25,20 @@
   border-bottom-left-radius: 0 !important;    /* No rounding on left */
 }
 
-.my-custom-tab.active,
-.my-custom-tab:hover {
+.my-custom-tab.active {
   background: white !important;
   color: black !important;
+}
+
+.my-custom-tab.active:hover {
+  /* Reset hover styles for active tab */
+  background: white !important;
+  color: black !important;
+  cursor: default;
+}
+
+.my-custom-tab:hover {
+  /* background: white !important; */
+  color: rgb(255, 255, 255) !important;
 }
 
