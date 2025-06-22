@@ -1,5 +1,6 @@
 import React from "react";
 import Transactions from "./homePages/Transactions";
+import Budgets from "./homePages/Budgets";
 
 export default function TabPanel({ tab }) {
   switch (tab) {
@@ -8,7 +9,7 @@ export default function TabPanel({ tab }) {
     case "transactions":
       return <Transactions />;
     case "budgets":
-      return <div>Budgets Content</div>;
+      return  <Budgets />;
     case "pots":
       return <div>Pots Content</div>;
     case "recurring bills":

@@ -5,9 +5,15 @@ import { parseAmount } from "./homePagesUi/parseAmount";
 import { Button } from "../../ui/Button";
 import Modal from "../../ui/Modal"; // adjust path as needed
 import { useAuth } from "../../../../contexts/AuthContext/AuthContext";
+import { deleteTransaction } from '../../../../store/transactionsSlice';
 
 import "./ModalPortal";
 import ModalPortal from "./ModalPortal";
+
+//redux
+import { useSelector, useDispatch } from 'react-redux';
+import { setTransactions, addTransaction, setLoading, setError } from '../../../../store/transactionsSlice';
+
 
 const API_URL = "http://localhost:5000/api/transactions"; // <-- Backend endpoint
 
@@ -15,14 +21,18 @@ const ITEMS_PER_PAGE = 10;
 
 export default function Transactions() {
   const { user, token } = useAuth();
-  // Transactions state
-  const [transactions, setTransactions] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
+  const transactions = useSelector(state => state.transactions.items);
+  const loading = useSelector(state => state.transactions.loading);
 
+  // Transactions state
+  const [filtered, setFiltered] = useState(transactions);
+  const [page, setPage] = useState(1); // <-- Add page state
+
+  // Add these lines:
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("All");
   const [sortBy, setSortBy] = useState("date-desc");
-  const [page, setPage] = useState(1); // <-- Add page state
 
   // Modal state
   const [showModal, setShowModal] = useState(false);
@@ -59,46 +69,52 @@ export default function Transactions() {
   // Fetch transactions from backend on mount
   useEffect(() => {
     async function fetchTransactions() {
-      setLoading(true);
+      dispatch(setLoading(true));
       try {
         if (!user || !token) {
-          setTransactions([]);
-          setLoading(false);
+          dispatch(setTransactions([]));
+          dispatch(setLoading(false));
           return;
         }
         const res = await fetch(API_URL, {
           headers: { Authorization: `Bearer ${token}` },
         });
         const data = await res.json();
-        setTransactions(data);
+        dispatch(setTransactions(data));
       } catch (err) {
-        setTransactions([]);
+        dispatch(setError("Failed to fetch"));
       }
-      setLoading(false);
+      dispatch(setLoading(false));
     }
     fetchTransactions();
-  }, [user, token]);
+  }, [user, token, dispatch]);
 
   // Filter and sort logic
-  let filtered = transactions.filter(
-    (tx) =>
-      (category === "All" || tx.category === category) &&
-      (tx.recipient.toLowerCase().includes(search.toLowerCase()) ||
-        tx.category.toLowerCase().includes(search.toLowerCase()))
-  );
+  useEffect(() => {
+    let updated = [...transactions];
 
-  if (sortBy === "date-desc")
-    filtered = filtered.sort((a, b) => b.date.localeCompare(a.date));
-  if (sortBy === "date-asc")
-    filtered = filtered.sort((a, b) => a.date.localeCompare(b.date));
-  if (sortBy === "amount-desc")
-    filtered = filtered.sort(
-      (a, b) => parseAmount(b.amount) - parseAmount(a.amount)
+    if (sortBy === "date-desc")
+      updated.sort((a, b) => new Date(b.date) - new Date(a.date));
+    if (sortBy === "date-asc")
+      updated.sort((a, b) => new Date(a.date) - new Date(b.date));
+    if (sortBy === "amount-desc")
+      updated.sort(
+        (a, b) => parseAmount(b.amount) - parseAmount(a.amount)
+      );
+    if (sortBy === "amount-asc")
+      updated.sort(
+        (a, b) => parseAmount(a.amount) - parseAmount(b.amount)
+      );
+
+    setFiltered(
+      updated.filter(
+        (tx) =>
+          (category === "All" || tx.category === category) &&
+          (tx.recipient.toLowerCase().includes(search.toLowerCase()) ||
+            tx.category.toLowerCase().includes(search.toLowerCase()))
+      )
     );
-  if (sortBy === "amount-asc")
-    filtered = filtered.sort(
-      (a, b) => parseAmount(a.amount) - parseAmount(b.amount)
-    );
+  }, [transactions, search, category, sortBy]);
 
   // Pagination logic
   const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE);
@@ -124,44 +140,65 @@ export default function Transactions() {
     setForm({ ...form, [e.target.name]: e.target.value });
   }
 
-  // Submit handler: POST to backend and update state
-  async function handleFormSubmit(e) {
-    e.preventDefault();
 
-    // Parse and store as a number
-    let raw = form.amount.trim();
-    let value = parseFloat(raw.replace(/[^0-9.-]+/g, ""));
-    if (isNaN(value)) value = 0;
-    if (raw.startsWith("-")) value = -Math.abs(value);
-    else value = Math.abs(value);
-
-    // Prepare data for backend
-    const payload = {
-      ...form,
-      amount: value,
-      // Do NOT send user, backend gets it from token
-    };
-
+  async function handleDelete(id) {
+    if (!window.confirm("Are you sure you want to delete this transaction?")) return;
     try {
-      const res = await fetch(API_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(payload),
+      const res = await fetch(`${API_URL}/${id}`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` },
       });
       if (res.ok) {
-        const newTx = await res.json();
-        setTransactions((prev) => [newTx, ...prev]);
-        setShowModal(false);
+        dispatch(deleteTransaction(id));
       } else {
-        alert("Failed to add transaction");
+        alert("Failed to delete transaction");
       }
     } catch {
+      alert("Failed to delete transaction");
+    }
+}
+
+  // Submit handler: POST to backend and update state
+async function handleFormSubmit(e) {
+  e.preventDefault();
+
+  // Parse and store as a number
+  let raw = form.amount.trim();
+  let value = parseFloat(raw.replace(/[^0-9.-]+/g, ""));
+  if (isNaN(value)) value = 0;
+  if (raw.startsWith("-")) value = -Math.abs(value);
+  else value = Math.abs(value);
+
+  // Convert date to ISO string
+  let dateISO = form.date ? new Date(form.date).toISOString() : "";
+
+  // Prepare data for backend
+  const payload = {
+    ...form,
+    date: dateISO, // <-- use ISO string
+    amount: value,
+  };
+
+  try {
+    const res = await fetch(API_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(payload),
+    });
+    if (res.ok) {
+      const newTx = await res.json();
+      dispatch(addTransaction(newTx));
+      setShowModal(false);
+    } else {
       alert("Failed to add transaction");
     }
+  } catch {
+    alert("Failed to add transaction");
   }
+}
 
   return (
     <>
@@ -220,7 +257,7 @@ export default function Transactions() {
             {loading ? (
               <div className="text-center my-4">Loading...</div>
             ) : (
-              <TransactionsTable data={paginatedData} />
+              <TransactionsTable data={paginatedData} onDelete={handleDelete} />
             )}
             {/* Pagination controls */}
             <div className="d-flex justify-content-center mt-3">
